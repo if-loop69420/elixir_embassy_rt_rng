@@ -15,7 +15,8 @@ defmodule UartRngReceiver do
   defp loop do
     receive do
       {:circuits_uart, "ttyS0", raw_binary_data} ->
-        IO.puts("Received Chaos: #{inspect(raw_binary_data)}")
+        IO.puts("Received Chaos: #{inspect(raw_binary_data, binaries: :as_binaries)}")
+      loop()
     end
   end
 end

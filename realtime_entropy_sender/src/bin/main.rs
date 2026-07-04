@@ -15,7 +15,7 @@ use esp_hal::Blocking;
 use esp_hal::analog::adc::*;
 use esp_hal::clock::CpuClock;
 use esp_hal::interrupt::software::SoftwareInterrupt;
-use esp_hal::peripherals::{ADC1, GPIO0};
+use esp_hal::peripherals::{ADC1, GPIO0, GPIO20};
 use esp_hal::timer::timg::TimerGroup;
 use esp_hal::uart::*;
 use esp_println::logger::init_logger;
@@ -41,7 +41,7 @@ async fn hard_realtime_adc_read(
     mut adc1: Adc<'static, ADC1<'static>, Blocking>,
     mut pin: AdcPin<GPIO0<'static>, ADC1<'static>>,
 ) {
-    let mut ticker = Ticker::every(Duration::from_millis(5));
+    let mut ticker = Ticker::every(Duration::from_millis(1));
     let mut random_byte: u8 = 0;
     let mut bit_count: u8 = 0;
 
@@ -86,7 +86,7 @@ async fn main(spawner: Spawner) -> ! {
 
     let static_sw_int_1 = SW_INT_CELL.init(sw_interrupt.software_interrupt1);
 
-    let mut uart_send = UartTx::new(peripherals.UART1, Config::default()).unwrap();
+    let mut uart_send = UartTx::new(peripherals.UART0, Config::default()).unwrap();
 
     let high_prio_exec = EXECUTOR_CELL.init(InterruptExecutor::new(static_sw_int_1.reborrow()));
     let spawner_high_prio = high_prio_exec.start(esp_hal::interrupt::Priority::Priority2);
@@ -97,7 +97,7 @@ async fn main(spawner: Spawner) -> ! {
     loop {
         let new_byte = ENTROPY_QUEUE.receive().await;
         match uart_send.write(&[new_byte]) {
-            Ok(x) => log::info!("Sent {x} bytes via uart"),
+            Ok(x) => (), // log::info!("Sent {x} bytes via uart"),
             Err(_) => log::warn!("Failed to send bytes via uart"),
         }
     }
