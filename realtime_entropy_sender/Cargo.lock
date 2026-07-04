@@ -328,6 +328,20 @@ dependencies = [
 ]
 
 [[package]]
+name = "embassy-sync"
+version = "0.8.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "7bbd85cf5a5ae56bdf26f618364af642d1d0a4e245cdd75cd9aabda382f65a81"
+dependencies = [
+ "cfg-if",
+ "critical-section",
+ "embedded-io-async 0.7.0",
+ "futures-core",
+ "futures-sink",
+ "heapless 0.9.3",
+]
+
+[[package]]
 name = "embassy-time"
 version = "0.5.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -528,7 +542,7 @@ dependencies = [
  "esp-metadata-generated 0.3.0",
  "esp-riscv-rt",
  "esp-rom-sys",
- "esp-sync",
+ "esp-sync 0.1.1",
  "esp32",
  "esp32c2",
  "esp32c3 0.31.0",
@@ -538,6 +552,7 @@ dependencies = [
  "esp32s3",
  "fugit",
  "instability",
+ "log",
  "nb 1.1.0",
  "paste",
  "portable-atomic",
@@ -575,6 +590,19 @@ name = "esp-metadata-generated"
 version = "0.4.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "42c2ee95b945a4780796e4359e72c033aed3b45073880e8029458f538532db8a"
+
+[[package]]
+name = "esp-println"
+version = "0.17.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "42dee1e9ac7c3539bf6464db1707b0edd7557168f98278cf3c84fe70e63c6ce6"
+dependencies = [
+ "document-features",
+ "esp-metadata-generated 0.4.0",
+ "esp-sync 0.2.1",
+ "log",
+ "portable-atomic",
+]
 
 [[package]]
 name = "esp-riscv-rt"
@@ -615,7 +643,7 @@ dependencies = [
  "esp-hal",
  "esp-hal-procmacros",
  "esp-metadata-generated 0.3.0",
- "esp-sync",
+ "esp-sync 0.1.1",
  "portable-atomic",
 ]
 
@@ -630,6 +658,22 @@ dependencies = [
  "embassy-sync 0.6.2",
  "embassy-sync 0.7.2",
  "esp-metadata-generated 0.3.0",
+ "riscv",
+ "xtensa-lx",
+]
+
+[[package]]
+name = "esp-sync"
+version = "0.2.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "b4736bfbbb9e3f6353344e14fc61b6d18d3b877c3286914cf8c0a037be0ed224"
+dependencies = [
+ "cfg-if",
+ "document-features",
+ "embassy-sync 0.6.2",
+ "embassy-sync 0.7.2",
+ "embassy-sync 0.8.0",
+ "esp-metadata-generated 0.4.0",
  "riscv",
  "xtensa-lx",
 ]
@@ -997,10 +1041,13 @@ version = "0.1.0"
 dependencies = [
  "critical-section",
  "embassy-executor",
+ "embassy-sync 0.8.0",
  "embassy-time",
  "esp-bootloader-esp-idf",
  "esp-hal",
+ "esp-println",
  "esp-rtos",
+ "log",
  "static_cell",
 ]
 
