@@ -2,17 +2,20 @@ defmodule UartRngReceiver do
   @moduledoc """
   Documentation for `UartRngReceiver`.
   """
+  def start_listening do
+    {:ok, pid} = Circuits.UART.start_link()
 
-  @doc """
-  Hello world.
+    Circuits.UART.open(pid, "ttyS0", speed: 115200, active: true)
 
-  ## Examples
+    IO.puts("Listening to hardware RNG")
 
-      iex> UartRngReceiver.hello()
-      :world
+    loop()
+  end
 
-  """
-  def hello do
-    :world
+  defp loop do
+    receive do
+      {:circuits_uart, "ttyS0", raw_binary_data} ->
+        IO.puts("Received Chaos: #{inspect(raw_binary_data)}")
+    end
   end
 end
