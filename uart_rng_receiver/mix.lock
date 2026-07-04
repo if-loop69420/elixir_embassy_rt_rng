@@ -1,0 +1,4 @@
+%{
+  "circuits_uart": {:git, "https://github.com/elixir-circuits/circuits_uart", "b33f21387f82ab8d7297aae9af34e4302647b06d", [tag: "v1.6.0"]},
+  "elixir_make": {:hex, :elixir_make, "0.10.0", "16577e2583a79bb79237bbff349619ef5d80afffc07eac6e4faf0d00e2ddaf7d", [:mix], [], "hexpm", "dc1f09fb7fa68866b886abd5f0f3c83553b1a19a52359a899e92af1bb3b31982"},
+}
